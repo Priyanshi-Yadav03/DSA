@@ -14,6 +14,35 @@
  * }
  */
 class Solution {
+     public List<Integer> inorderTraversalIterative(TreeNode root){
+        List<Integer> list = new ArrayList<>();
+        Stack<TreeNode> stack= new Stack<>();
+        TreeNode currentNode = root;
+        while(currentNode!=null || !stack.isEmpty()){
+            while(currentNode!=null){
+                stack.push(currentNode);
+                currentNode=currentNode.left;
+            }
+            currentNode=stack.pop();
+            list.add(currentNode.val);
+            currentNode= currentNode.right;//so explore the right side
+        }
+        return list;
+
+     }
+
+
+
+
+
+
+
+
+
+
+
+
+    //APPROACH 01 
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> list = new ArrayList<>();
         inOrderHelper(root,list);
