@@ -1,40 +1,22 @@
 import java.util.*;
 
 class Solution {
-    int[] nums;
+    Map<Integer, List<Integer>> map;
     Random rand;
 
-    // Constructor (LeetCode 398 - Random Pick Index)
+    // Constructor: preprocess indices of each number
     public Solution(int[] nums) {
-        this.nums = nums;
-        this.rand = new Random();
-    }
-
-    // Random Pick Index using Reservoir Sampling
-    public int pick(int target) {
-        int result = -1;
-        int count = 0;
+        map = new HashMap<>();
+        rand = new Random();
 
         for (int i = 0; i < nums.length; i++) {
-            if (nums[i] == target) {
-                count++;
-                if (rand.nextInt(count) == 0) { // 1/count probability
-                    result = i;
-                }
-            }
+            map.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
         }
-        return result;
     }
 
-    // Find the Difference (LeetCode 389)
-    public char findTheDifference(String s, String t) {
-        char xor = 0;
-        for (char c : s.toCharArray()) {
-            xor ^= c;
-        }
-        for (char c : t.toCharArray()) {
-            xor ^= c;
-        }
-        return xor;
+    // Pick random index of target in O(1)
+    public int pick(int target) {
+        List<Integer> indices = map.get(target);
+        return indices.get(rand.nextInt(indices.size()));
     }
 }
